@@ -139,7 +139,7 @@ const SHOPPING_DATA = [
     items: [
       {
         id: 1,
-        name: "D Rose Chi-Town",
+        name: "D Rose Chi-Town Jersey",
         imageUrl:
           "https://images.unsplash.com/photo-1474107433958-c6374e32ec1a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2104&q=80",
         price: 130,
