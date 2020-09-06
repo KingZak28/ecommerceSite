@@ -25,12 +25,9 @@ class App extends React.Component {
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot((snapShot) => {
           // To get the data off the snapshot we need to call the .data() method but the original snapshot obj has the ID
-          this.setState(
-            {
-              currentUser: { id: snapShot.id, ...snapShot.data() },
-            },
-            () => console.log(this.state)
-          );
+          this.setState({
+            currentUser: { id: snapShot.id, ...snapShot.data() },
+          });
         });
 
         // Once we sign out user auth will be set to Null
