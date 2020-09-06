@@ -1,5 +1,4 @@
 import firebase from "firebase/app";
-import PrettyButton from "../components/prettyButton/prettyButton";
 import "firebase/firestore";
 import "firebase/auth";
 
@@ -12,6 +11,31 @@ const config = {
   messagingSenderId: "655332113058",
   appId: "1:655332113058:web:4cf97632d388732ff9f5fb",
   measurementId: "G-RXDJZVVBSJ",
+};
+
+// Take the user auth object and then store it inside a DB
+export const createUserProfileDocument = async (userAuth, restOfData) => {
+  if (!userAuth) return;
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+  const snapShot = await userRef.get();
+  if (!snapShot.exists) {
+    // In order to perform CRUD operations we need to use a document reference object not just a snapshot
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...restOfData,
+      });
+    } catch (e) {
+      console.log("error adding new user", e.message);
+    }
+  }
+
+  return userRef;
 };
 
 firebase.initializeApp(config);

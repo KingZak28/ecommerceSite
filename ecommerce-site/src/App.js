@@ -5,7 +5,7 @@ import MainPage from "./pages/mainPage/mainPage";
 import ShopPage from "./pages/shopPage/shopPage";
 import Navbar from "./components/navbar/navbar";
 import SignInAndUpPage from "./pages/signInAndUpPage/signInAndUpPage";
-import { auth } from "./firebase/firebaseUtils";
+import { auth, createUserProfileDocument } from "./firebase/firebaseUtils";
 
 class App extends React.Component {
   constructor() {
@@ -19,9 +19,23 @@ class App extends React.Component {
 
   componentDidMount() {
     // The subscriber is always listening to the auth and allows for persistence
-    this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
-      this.setState({ currentUser: user });
-      console.log(user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        // We're going to use the user reference to check if the DB has actually updated
+        const userRef = await createUserProfileDocument(userAuth);
+        userRef.onSnapshot((snapShot) => {
+          // To get the data off the snapshot we need to call the .data() method but the original snapshot obj has the ID
+          this.setState(
+            {
+              currentUser: { id: snapShot.id, ...snapShot.data() },
+            },
+            () => console.log(this.state)
+          );
+        });
+
+        // Once we sign out user auth will be set to Null
+        this.setState({ currentUser: userAuth });
+      }
     });
   }
 

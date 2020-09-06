@@ -1,10 +1,7 @@
 import React from "react";
 import FormInput from "../formInput/formInput";
 import PrettyButton from "../prettyButton/prettyButton";
-import {
-  SignInWithGoogle,
-  signInWithGoogle,
-} from "../../firebase/firebaseUtils";
+import { signInWithGoogle } from "../../firebase/firebaseUtils";
 import "./signIn.scss";
 
 class SignIn extends React.Component {
