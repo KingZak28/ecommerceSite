@@ -6,18 +6,15 @@ import ShopPage from "./pages/shopPage/shopPage";
 import Navbar from "./components/navbar/navbar";
 import SignInAndUpPage from "./pages/signInAndUpPage/signInAndUpPage";
 import { auth, createUserProfileDocument } from "./firebase/firebaseUtils";
+import { connect } from "react-redux";
+import { setCurrentUser } from "./redux/user/userActions";
 
 class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      currentUser: null,
-    };
-  }
-
   unsubscribeFromAuth = null;
 
   componentDidMount() {
+    const { setCurrentUser } = this.props;
+
     // The subscriber is always listening to the auth and allows for persistence
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
@@ -25,14 +22,11 @@ class App extends React.Component {
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot((snapShot) => {
           // To get the data off the snapshot we need to call the .data() method but the original snapshot obj has the ID
-          this.setState({
-            currentUser: { id: snapShot.id, ...snapShot.data() },
-          });
+          setCurrentUser({ id: snapShot.id, ...snapShot.data() });
         });
-
-        // Once we sign out user auth will be set to Null
-        this.setState({ currentUser: userAuth });
       }
+      // Once we sign out user auth will be set to Null
+      setCurrentUser(userAuth);
     });
   }
 
@@ -44,7 +38,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Navbar currentUser={this.state.currentUser} />
+        <Navbar />
         <Switch>
           <Route exact path="/" component={MainPage}></Route>
           <Route path="/shop" component={ShopPage}></Route>
@@ -55,4 +49,10 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => ({
+  // Dispatch is a way for redux to know that the object being passed is an Action object that is going to be passed to all reducers
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+
+// Null because we don't need to map any state to props
+export default connect(null, mapDispatchToProps)(App);

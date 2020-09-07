@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../../Assets/Navbar Assets/new.svg";
 import { auth } from "../../firebase/firebaseUtils";
+import { connect } from "react-redux"; // Higher order components are functions that take components as arguments and return a ssj3 component
 import "./navbar.scss";
 
 const Navbar = ({ currentUser }) => (
@@ -29,4 +30,8 @@ const Navbar = ({ currentUser }) => (
   </div>
 );
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser,
+});
+
+export default connect(mapStateToProps)(Navbar);
