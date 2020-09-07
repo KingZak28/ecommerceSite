@@ -1,3 +1,4 @@
+import { userActionTypes } from "./actionTypes";
 const INITIAL_STATE = {
   currentUser: null,
 };
@@ -5,7 +6,7 @@ const INITIAL_STATE = {
 // If state is ever undefined we can set the default param to our Initial state.
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case "SET_CURRENT_USER":
+    case userActionTypes.SET_CURRENT_USER:
       return {
         ...state,
         currentUser: action.payload,

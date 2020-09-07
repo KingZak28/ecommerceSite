@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import MainPage from "./pages/mainPage/mainPage";
 import ShopPage from "./pages/shopPage/shopPage";
@@ -35,6 +35,7 @@ class App extends React.Component {
     this.unsubscribeFromAuth();
   }
 
+  // The render inside the sign in route is used when you want to include some JS to determine which component to render
   render() {
     return (
       <div>
@@ -42,12 +43,23 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={MainPage}></Route>
           <Route path="/shop" component={ShopPage}></Route>
-          <Route path="/signin" component={SignInAndUpPage}></Route>
+          <Route
+            exact
+            path="/signin"
+            render={() =>
+              this.props.currentUser ? <Redirect to="/" /> : <SignInAndUpPage />
+            }
+          ></Route>
         </Switch>
       </div>
     );
   }
 }
+
+//We need to know if we have a current user to determine whether we need to redirect from the sign in page
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   // Dispatch is a way for redux to know that the object being passed is an Action object that is going to be passed to all reducers
@@ -55,4 +67,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // Null because we don't need to map any state to props
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
