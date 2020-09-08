@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PrettyButton from "../prettyButton/prettyButton";
 import CartItem from "../cartItem/cartItem";
+import { selectCartItems } from "../../redux/cart/cartSelectors";
 import "./cartDropDown.scss";
 
 const CartDropDown = ({ cartItems }) => (
@@ -14,8 +15,9 @@ const CartDropDown = ({ cartItems }) => (
   </div>
 );
 
-const mapStateToProps = ({ cart: { cartItems } }) => ({
-  cartItems,
+// Using reselect library for performance considerations do not want the cartdropdown to rerender unnecessarily.
+const mapStateToProps = (state) => ({
+  cartItems: selectCartItems(state),
 });
 
 export default connect(mapStateToProps)(CartDropDown);
