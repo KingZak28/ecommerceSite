@@ -4,8 +4,10 @@ import { ReactComponent as Logo } from "../../Assets/Navbar Assets/new.svg";
 import { auth } from "../../firebase/firebaseUtils";
 import { connect } from "react-redux"; // Higher order components are functions that take components as arguments and return a ssj3 component
 import "./navbar.scss";
+import ShoppingBag from "../shoppingBag/shoppingBag";
+import CartDropDown from "../cartDropDown/cartDropDown";
 
-const Navbar = ({ currentUser }) => (
+const Navbar = ({ currentUser, hidden }) => (
   <div className="navbar">
     <Link className="logo-container" to="/">
       <Logo className="logo"></Logo>
@@ -26,12 +28,16 @@ const Navbar = ({ currentUser }) => (
           SIGN IN
         </Link>
       )}
+      <ShoppingBag />
     </div>
+    {hidden ? null : <CartDropDown />}
   </div>
 );
 
-const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser,
+// {user:{currentUser}} is a way to destructure nested things
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+  currentUser,
+  hidden,
 });
 
 export default connect(mapStateToProps)(Navbar);
