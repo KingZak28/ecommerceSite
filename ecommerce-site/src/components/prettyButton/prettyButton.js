@@ -1,9 +1,16 @@
 import React from "react";
 import "./prettyButton.scss";
 
-const PrettyButton = ({ children, isGoogleSignIn, ...restOfProps }) => (
+const PrettyButton = ({
+  children,
+  isGoogleSignIn,
+  inverted,
+  ...restOfProps
+}) => (
   <button
-    className={`${isGoogleSignIn ? "googleSignIn" : ""} prettyButton`}
+    className={`${inverted ? "inverted" : ""} ${
+      isGoogleSignIn ? "googleSignIn" : ""
+    } prettyButton`}
     {...restOfProps}
   >
     {children}

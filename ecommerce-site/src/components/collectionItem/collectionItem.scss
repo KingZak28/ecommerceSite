@@ -5,6 +5,7 @@
     flex-direction: column;
     height: 350px;
     align-items: center;
+    position: relative;
 
 
     .img{
@@ -23,7 +24,21 @@
         font-size: 18px;
     }
     
-    .name{
-    
+    .prettyButton{
+        width: 80%;
+        opacity: .85;
+        position: absolute;
+        top:255px;
+        display: none;
+    }
+
+    &:hover{
+        .img{
+            opacity: .8;
+        }
+
+        .prettyButton{
+            display: flex;
+        }
     }
 }

@@ -13,6 +13,8 @@
     border: none;
     font-family: "Playfair Display";
     cursor: pointer;
+    display: flex;
+    justify-content: center;
 
     &:hover{
         background-color: white;
@@ -29,5 +31,16 @@
         }
 
 
+    }
+
+    &.inverted{
+        background-color: white;
+        color: black;
+        border: 1px solid black;
+        &:hover{
+            background-color: black;
+            color: white;
+            border:none;
+        }
     }
 }
