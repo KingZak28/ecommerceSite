@@ -6,6 +6,9 @@ import { connect } from "react-redux"; // Higher order components are functions 
 import "./navbar.scss";
 import ShoppingBag from "../shoppingBag/shoppingBag";
 import CartDropDown from "../cartDropDown/cartDropDown";
+import { createStructuredSelector } from "reselect";
+import { selectCartHidden } from "../../redux/cart/cartSelectors";
+import { selectCurrentUser } from "../../redux/user/userSelector";
 
 const Navbar = ({ currentUser, hidden }) => (
   <div className="navbar">
@@ -34,10 +37,10 @@ const Navbar = ({ currentUser, hidden }) => (
   </div>
 );
 
-// {user:{currentUser}} is a way to destructure nested things
-const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
-  currentUser,
-  hidden,
+// create structured selector method allows us to just match the property to the selector instead of having to pass the state into each selector like currentUser: selectCurrentUser(state)
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+  hidden: selectCartHidden,
 });
 
 export default connect(mapStateToProps)(Navbar);

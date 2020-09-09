@@ -3,11 +3,14 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import MainPage from "./pages/mainPage/mainPage";
 import ShopPage from "./pages/shopPage/shopPage";
+import CheckoutPage from "./pages/checkoutPage/checkoutPage";
 import Navbar from "./components/navbar/navbar";
 import SignInAndUpPage from "./pages/signInAndUpPage/signInAndUpPage";
 import { auth, createUserProfileDocument } from "./firebase/firebaseUtils";
 import { connect } from "react-redux";
 import { setCurrentUser } from "./redux/user/userActions";
+import { selectCurrentUser } from "./redux/user/userSelector";
+import { createStructuredSelector } from "reselect";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -41,8 +44,9 @@ class App extends React.Component {
       <div>
         <Navbar />
         <Switch>
-          <Route exact path="/" component={MainPage}></Route>
-          <Route path="/shop" component={ShopPage}></Route>
+          <Route exact path="/" component={MainPage} />
+          <Route path="/shop" component={ShopPage} />
+          <Route path="/checkout" component={CheckoutPage} />
           <Route
             exact
             path="/signin"
@@ -57,8 +61,8 @@ class App extends React.Component {
 }
 
 //We need to know if we have a current user to determine whether we need to redirect from the sign in page
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser,
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({
