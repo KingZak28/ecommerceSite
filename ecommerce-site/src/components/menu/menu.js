@@ -1,62 +1,21 @@
-import React, { Component } from "react";
+import React from "react";
 import MenuItem from "../menuItem/menuItem";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import { selectMenuSections } from "../../redux/menu/menuSelector";
 import "./menu.scss";
 
-class Menu extends Component {
-  constructor() {
-    super();
-    this.state = {
-      sections: [
-        {
-          title: "DAD HATS",
-          imgUrl:
-            "https://images.unsplash.com/photo-1521369909029-2afed882baee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80",
-          id: 1,
-          linkUrl: "hats",
-        },
-        {
-          title: "JERSEYS",
-          imgUrl:
-            "https://images.unsplash.com/photo-1551479460-5e76c686816a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2220&q=80",
-          id: 2,
-          linkUrl: "",
-        },
-        {
-          title: "KICKS",
-          imgUrl:
-            "https://images.unsplash.com/photo-1473010350295-2c82192ebd8e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80",
-          id: 3,
-          linkUrl: "",
-        },
-        {
-          title: "WOMENS",
-          imgUrl:
-            "https://images.unsplash.com/photo-1572804013427-4d7ca7268217?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1301&q=80",
-          id: 4,
-          size: "large",
-          linkUrl: "",
-        },
-        {
-          title: "MENS",
-          imgUrl:
-            "https://images.unsplash.com/photo-1520367745676-56196632073f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=882&q=80",
-          id: 5,
-          size: "large",
-          linkUrl: "",
-        },
-      ],
-    };
-  }
+const Menu = ({ sections }) => (
+  <div className="menu">
+    {sections.map(({ id, ...otherProps }) => (
+      <MenuItem key={id} {...otherProps}></MenuItem>
+    ))}
+  </div>
+);
 
-  render() {
-    return (
-      <div className="menu">
-        {this.state.sections.map(({ id, ...otherProps }) => (
-          <MenuItem key={id} {...otherProps}></MenuItem>
-        ))}
-      </div>
-    );
-  }
-}
+const mapStateToProps = () =>
+  createStructuredSelector({
+    sections: selectMenuSections,
+  });
 
-export default Menu;
+export default connect(mapStateToProps)(Menu);
