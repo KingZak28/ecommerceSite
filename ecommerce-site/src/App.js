@@ -45,11 +45,11 @@ class App extends React.Component {
         <Navbar />
         <Switch>
           <Route exact path="/ecommerceSite" component={MainPage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route path="/checkout" component={CheckoutPage} />
+          <Route path="ecommerceSite/shop" component={ShopPage} />
+          <Route path="ecommerceSite/checkout" component={CheckoutPage} />
           <Route
             exact
-            path="/signin"
+            path="ecommerceSite/signin"
             render={() =>
               this.props.currentUser ? <Redirect to="/" /> : <SignInAndUpPage />
             }
